@@ -5,6 +5,7 @@ import librosa
 import streamlit as st
 
 
+
 def input_form() -> tuple:
     """
     Performs audio loading related tasks.
@@ -16,9 +17,9 @@ def input_form() -> tuple:
     # use form
     with st.form("input_form"):
         st.header("Select audio")
-        st.caption("*All audio inputs will be converted to mono.*")
         selected_samples = st.selectbox("Use sample audio...", audio_samples.keys())
-        uploaded_file = st.file_uploader("...or upload you own")
+        uploaded_file = st.file_uploader("...or upload you own.")
+        st.caption("*All audio inputs will be converted to mono.*")
         resample = st.checkbox("Resample to 22050 Hz", value=True)
         submitted = st.form_submit_button("Augment")
 
