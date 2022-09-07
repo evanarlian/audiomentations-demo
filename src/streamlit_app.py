@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import librosa
+import matplotlib.pyplot as plt
 import streamlit as st
 
 
@@ -41,10 +42,29 @@ def input_form() -> tuple:
     return audio_arr, sr, audio_name
 
 
+def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
+    
+    # just the waveform
+    fig_wave, ax_wave = plt.subplots()
+    librosa.display.waveshow(audio_arr, sr=sr, ax=ax_wave)
+    st.pyplot(fig_wave)
+
+    # log melspec
+    fig_mel, ax_mel = plt.subplots()
+    mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
+    db_mel_spec = librosa.amplitude_to_db(mel_spec)
+    librosa.display.specshow(db_mel_spec, ax=ax_mel)
+    st.pyplot(fig_mel)
+    # TODO add more info like: axis label, better color, librosa built in stuff, etc
+
+
+
 def main():
     st.title("🎹 Audiomentations Demo")
     audio_arr, sr, audio_name = input_form()
     st.write(audio_arr.shape, sr, audio_name)
+
+    visualize_wave(audio_arr, sr, audio_name)
 
 
 if __name__ == "__main__":
