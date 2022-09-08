@@ -51,7 +51,7 @@ def input_form() -> Tuple[np.ndarray, int, str]:
 def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
 
     # plot wave on top and mel spec on the bottom
-    fig, axs = plt.subplots(2, constrained_layout=True)
+    fig, axs = plt.subplots(2, sharex=True, constrained_layout=True)
     librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])
     axs[0].set_ylabel("Amplitude")
     mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
