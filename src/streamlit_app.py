@@ -27,8 +27,8 @@ def aug_sidebar() -> list:
     selected = []
     augs = []
     while True:
-        # this sidebar have implicit key by incrementing the label string
-        sel = st.sidebar.selectbox(f"Augmentations no. {len(selected)+1}", helpers)
+        # this sidebar has implicit key by incrementing the label string
+        sel = st.sidebar.selectbox(f"Audiomentations no. {len(selected)+1}", helpers)
         if sel == add_new:
             break
         selected.append(sel)
@@ -36,7 +36,6 @@ def aug_sidebar() -> list:
         aug = helper_classes[sel](keygen=incr)
         aug.render()
         augs.append(aug)
-
     return augs
 
 
@@ -46,7 +45,7 @@ def info_sidebar() -> None:
     pass
 
 
-def input_form() -> Tuple[np.ndarray, int, str]:
+def input_audio() -> Tuple[np.ndarray, int, str]:
     """
     Performs audio loading related tasks.
     Returns tuple of (audio_data, sample_rate, filename)
@@ -54,17 +53,11 @@ def input_form() -> Tuple[np.ndarray, int, str]:
     # audio samples key value pair
     audio_samples = {path.name: path for path in Path("audio_samples/").iterdir()}
 
-    # use form
-    with st.form("input_form"):
-        selected_samples = st.selectbox("Use sample audio...", audio_samples.keys())
-        uploaded_file = st.file_uploader("...or upload you own.")
-        st.caption("*All audio inputs will be converted to mono.*")
-        resample = st.checkbox("Resample to 22050 Hz", value=True)
-        submitted = st.form_submit_button("Augment")
-
-    # stop rendering if not submitted
-    if not submitted:
-        st.stop()
+    # audio input settings
+    selected_samples = st.selectbox("Use sample audio...", audio_samples.keys())
+    uploaded_file = st.file_uploader("...or upload you own.")
+    st.caption("*All audio inputs will be converted to mono.*")
+    resample = st.checkbox("Resample to 22050 Hz", value=True)
 
     # handle if user is using custom or sample song
     if uploaded_file is not None:
@@ -126,7 +119,7 @@ def main():
 
     with input_col:
         st.header("Select audio")
-        audio_arr, sr, audio_name = input_form()
+        audio_arr, sr, audio_name = input_audio()
 
     with metadata_col:
         # TODO metadata

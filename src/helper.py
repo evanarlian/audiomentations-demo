@@ -67,8 +67,7 @@ class BaseHelper(ABC):
                 self.captured[f"min_{aug_param}"] = min_val
                 self.captured[f"max_{aug_param}"] = max_val
             else:
-                # TODO try this if false
-                raise NotImplementedError(f"Widget {widget_enum} is not implemented!")
+                raise NotImplementedError(f"{widget_enum} is not implemented!")
         self.aug_instance = self.aug_class(**self.captured, p=self.proba)
 
 
