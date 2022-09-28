@@ -1,6 +1,7 @@
-from tempfile import NamedTemporaryFile, SpooledTemporaryFile
+import itertools
+from typing import Tuple
 from pathlib import Path
-from typing import Tuple, final
+from tempfile import NamedTemporaryFile
 
 import numpy as np
 import soundfile
@@ -9,8 +10,39 @@ import librosa.display
 import matplotlib.pyplot as plt
 import streamlit as st
 
+from helper import helper_classes
 
-def aug_sidebar():
+
+def aug_sidebar() -> list:
+    """
+    Create list of choices, adding a new one if full.
+    Shows every params for current selected transforms.
+    """
+    # streamlit works by caching the previous input (cache by key) and
+    # the while loop simply recreates the list everytime, but since
+    # previous inputs are cached, it will break at fresh value
+    incr = itertools.count()
+    add_new = "➕ Add new"
+    helpers = [add_new] + sorted(list(helper_classes.keys()))
+    selected = []
+    augs = []
+    while True:
+        # this sidebar have implicit key by incrementing the label string
+        sel = st.sidebar.selectbox(f"Augmentations no. {len(selected)+1}", helpers)
+        if sel == add_new:
+            break
+        selected.append(sel)
+        # aug needs explicit key because it can contain many widget
+        aug = helper_classes[sel](keygen=incr)
+        aug.render()
+        augs.append(aug)
+
+    return augs
+
+
+def info_sidebar() -> None:
+    """Show app info"""
+    # TODO
     pass
 
 
@@ -61,14 +93,15 @@ def input_form() -> Tuple[np.ndarray, int, str]:
 
 
 def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
+    """Shows wav plot, mel spectogram, and audio player."""
 
     # plot wave on top and mel spec on the bottom
     fig, axs = plt.subplots(2, sharex=True, constrained_layout=True)
-    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])
+    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])  # TODO gap on `barking.wav`
     axs[0].set_ylabel("Amplitude")
     mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
     db_mel_spec = librosa.amplitude_to_db(mel_spec)
-    librosa.display.specshow(db_mel_spec, ax=axs[1], x_axis="time", y_axis="mel")
+    librosa.display.specshow(db_mel_spec, sr=sr, ax=axs[1], x_axis="time", y_axis="mel")
     fig.suptitle(audio_name)
     st.pyplot(fig)
 
@@ -87,6 +120,8 @@ def main():
     st.title("🎹 Audiomentations Demo")
 
     # TODO choose aug here
+    aug = aug_sidebar()
+
     input_col, metadata_col = st.columns(2, gap="large")
 
     with input_col:
