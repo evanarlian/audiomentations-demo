@@ -9,11 +9,12 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import streamlit as st
+import audiomentations as A
 
 from helper import helper_classes
 
 
-def aug_sidebar() -> list:
+def aug_sidebar() -> A.Compose:
     """
     Create list of choices, adding a new one if full.
     Shows every params for current selected transforms.
@@ -23,9 +24,9 @@ def aug_sidebar() -> list:
     # previous inputs are cached, it will break at fresh value
     incr = itertools.count()
     add_new = "➕ Add new"
-    helpers = [add_new] + sorted(list(helper_classes.keys()))
+    helpers = [add_new] + sorted(helper_classes.keys())
     selected = []
-    augs = []
+    aug_helpers = []
     while True:
         # this sidebar has implicit key by incrementing the label string
         sel = st.sidebar.selectbox(f"Audiomentations no. {len(selected)+1}", helpers)
@@ -33,10 +34,10 @@ def aug_sidebar() -> list:
             break
         selected.append(sel)
         # aug needs explicit key because it can contain many widget
-        aug = helper_classes[sel](keygen=incr)
-        aug.render()
-        augs.append(aug)
-    return augs
+        ah = helper_classes[sel](keygen=incr)
+        ah.render()
+        aug_helpers.append(ah)
+    return A.Compose([ah.aug_instance for ah in aug_helpers])
 
 
 def info_sidebar() -> None:
@@ -45,7 +46,7 @@ def info_sidebar() -> None:
     pass
 
 
-def input_audio() -> Tuple[np.ndarray, int, str]:
+def audio_input() -> Tuple[np.ndarray, int, str]:
     """
     Performs audio loading related tasks.
     Returns tuple of (audio_data, sample_rate, filename)
@@ -54,7 +55,7 @@ def input_audio() -> Tuple[np.ndarray, int, str]:
     audio_samples = {path.name: path for path in Path("audio_samples/").iterdir()}
 
     # audio input settings
-    selected_samples = st.selectbox("Use sample audio...", audio_samples.keys())
+    selected_samples = st.selectbox("Use sample audio...", sorted(audio_samples.keys()))
     uploaded_file = st.file_uploader("...or upload you own.")
     st.caption("*All audio inputs will be converted to mono.*")
     resample = st.checkbox("Resample to 22050 Hz", value=True)
@@ -111,32 +112,27 @@ def main():
 
     st.set_page_config(layout="wide")
     st.title("🎹 Audiomentations Demo")
-
-    # TODO choose aug here
     aug = aug_sidebar()
 
     input_col, metadata_col = st.columns(2, gap="large")
-
     with input_col:
         st.header("Select audio")
-        audio_arr, sr, audio_name = input_audio()
-
+        audio_before, sr, audio_name = audio_input()
     with metadata_col:
         # TODO metadata
         st.header("Input metadata")
-        st.write(audio_arr.shape[0] / sr)
+        st.write(audio_before.shape[0] / sr)
 
-    # TODO do aug here
+    # augment the audio
+    audio_after = aug(audio_before, sample_rate=sr)
 
     before_col, after_col = st.columns(2, gap="large")
-
     with before_col:
         st.header("Before")
-        visualize_wave(audio_arr, sr, audio_name)
-
+        visualize_wave(audio_before, sr, audio_name)
     with after_col:
         st.header("After")
-        visualize_wave(audio_arr, sr, audio_name)
+        visualize_wave(audio_after, sr, audio_name)
 
     # TODO docs so we can understand augs + copy paste
 

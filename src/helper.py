@@ -2,6 +2,7 @@ from abc import ABC
 from enum import Enum
 from typing import Generator
 
+import numpy as np
 import audiomentations as A
 import streamlit as st
 
@@ -88,15 +89,17 @@ class DummyTransform:
         self.max_age = max_age
         self.p = p
 
-    def __call__(self, x):
+    def __call__(self, samples: np.ndarray, sample_rate: int):
         # fake identity call
-        # used for debug instead
-        print("is_alive", self.is_alive)
-        print("color", self.color)
-        print("fav_number", self.fav_number)
-        print("min_age", self.min_age)
-        print("max_age", self.max_age)
-        return x
+        # used for debugging purposes
+        print("np audio arr:", samples.shape)
+        print("sample rate:", sample_rate)
+        print("is_alive:", self.is_alive)
+        print("color:", self.color)
+        print("fav_number:", self.fav_number)
+        print("min_age:", self.min_age)
+        print("max_age:", self.max_age)
+        return samples
 
 
 class Dummy(BaseHelper):
