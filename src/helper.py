@@ -10,7 +10,7 @@ import streamlit as st
 class Widget(Enum):
     BOOL = 1  # checkbox
     CHOICE = 2  # selectbox (dropdown)
-    RANGE1 = 3  # slider with one values
+    RANGE1 = 3  # slider with one value
     RANGE2 = 4  # slider with left and right values
 
 
@@ -33,7 +33,7 @@ class BaseHelper(ABC):
         self.aug_class = aug_class
         self.widgets_kwargs = widgets_kwargs
         self.keygen = keygen
-        self.proba = 1.0  # proba is always 100% for testing purposes
+        self.proba = 1.0  # proba is always 100% for demo purposes
         self.captured = {}
         self.aug_instance = None
 
@@ -99,6 +99,7 @@ class DummyTransform:
         print("fav_number:", self.fav_number)
         print("min_age:", self.min_age)
         print("max_age:", self.max_age)
+        print()
         return samples
 
 
@@ -110,30 +111,30 @@ class Dummy(BaseHelper):
             widgets_kwargs=[
                 {
                     "_widget_enum": Widget.BOOL,
-                    "label": "is_alive",  # match the param name
-                    "value": True,  # match default value
+                    "label": "is_alive",
+                    "value": True,
                 },
                 {
                     "_widget_enum": Widget.CHOICE,
-                    "label": "color",  # match the param name
-                    "options": ["red", "green", "blue"],  # match allowed values
-                    "index": 0,  # match default value
+                    "label": "color",
+                    "options": ["red", "green", "blue"],
+                    "index": 0,
                 },
                 {
                     "_widget_enum": Widget.RANGE1,
-                    "label": "fav_number",  # match the param name
-                    "min_value": 0,  # experiment
-                    "max_value": 100,  # experiment
-                    "value": 20,  # match default values
-                    "step": 1,  # match data type and experiment
+                    "label": "fav_number",
+                    "min_value": 0,
+                    "max_value": 100,
+                    "value": 20,
+                    "step": 1,
                 },
                 {
                     "_widget_enum": Widget.RANGE2,
-                    "label": "age",  # match the param name
-                    "min_value": 12,  # experiment
-                    "max_value": 76,  # experiment
-                    "value": (22, 50),  # match default values (min and max)
-                    "step": 1,  # match data type and experiment
+                    "label": "age",
+                    "min_value": 12,
+                    "max_value": 76,
+                    "value": (22, 50),
+                    "step": 1,
                 },
             ],
         )
@@ -161,7 +162,7 @@ class Dummy(BaseHelper):
 #             ]
 #         )
 
-
+# TODO transforms that require folder need to be frozen (disabled in the streamlit widget, but still shows text)
 # TODO add ALL classes with the same name
 helper_classes = {
     "Dummy": Dummy,
