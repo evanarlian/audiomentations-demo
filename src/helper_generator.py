@@ -19,7 +19,7 @@ class {class_name}(BaseHelper):
 
 WIDGET_BOOL = """
                 {{
-                    "_widget_enum": Widget.BOOL,  # FIXME
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "{param_name}",  # match the param name
                     "value": {default},  # match default value
                 }},
@@ -29,7 +29,7 @@ WIDGET_BOOL = """
 
 WIDGET_CHOICE = """
                 {{
-                    "_widget_enum": Widget.CHOICE,  # FIXME
+                    "_widget_enum": Widget.CHOICE,  # FIXME change options and index by digging the docs
                     "label": "{param_name}",  # match the param name
                     "options": ["red", "green", "blue"],  # match allowed values
                     "index": 0,  # match default value
@@ -40,12 +40,9 @@ WIDGET_CHOICE = """
 
 WIDGET_RANGE1 = """
                 {{
-                    "_widget_enum": Widget.RANGE1,  # FIXME
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
                     "label": "{param_name}",  # match the param name
-                    "min_value": 0,  # experiment
-                    "max_value": 100,  # experiment
                     "value": {default},  # match default values
-                    "step": 1,  # match data type and experiment
                 }},
 """.strip(
     "\n"
@@ -53,12 +50,9 @@ WIDGET_RANGE1 = """
 
 WIDGET_RANGE2 = """
                 {{
-                    "_widget_enum": Widget.RANGE2,  # FIXME
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
                     "label": "{param_name}",  # match the param name
-                    "min_value": 12,  # experiment
-                    "max_value": 76,  # experiment
-                    "value": {default},  # match default values (min and max)
-                    "step": 1,  # match data type and experiment
+                    "value": {default},  # match default values (min and max tuple)
                 }},
 """.strip(
     "\n"
@@ -66,7 +60,7 @@ WIDGET_RANGE2 = """
 
 WIDGET_UNKNOWN = """
                 {{
-                    "_widget_enum": Widget.UNKNOWN,  # FIXME
+                    "_widget_enum": Widget.UNKNOWN,  # FIXME subclass the render method
                     "label": "{param_name}",
                 }},
 """.strip(
@@ -134,13 +128,17 @@ def main():
             # pop 2 from original, add 1 no new
             if name.startswith("min_"):
                 max_name = "max_" + shortname
-                max_val = init_params.pop(max_name)
-                minmax_without_minmax[shortname] = (default, max_val)
+                if max_name in init_params:
+                    max_val = init_params.pop(max_name)
+                    init_params.pop(name)
+                    minmax_without_minmax[shortname] = (default, max_val)
             elif name.startswith("max_"):
                 min_name = "min_" + shortname
-                print(min_name, cls, init_params)
-                min_val = init_params.pop(min_name)
-                minmax_without_minmax[shortname] = (default, min_val)
+                # print(min_name, cls, init_params)
+                if min_name in init_params:
+                    min_val = init_params.pop(min_name)
+                    init_params.pop(name)
+                    minmax_without_minmax[shortname] = (default, min_val)
 
         # handle non minmax (bool, choice, range1)
         for name, default in init_params.items():
