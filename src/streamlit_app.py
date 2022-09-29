@@ -14,7 +14,7 @@ import audiomentations as A
 from helper import helper_classes
 
 
-def aug_sidebar() -> A.Compose:
+def aug_sidebar() -> list:
     """
     Create list of choices, adding a new one if full.
     Shows every params for current selected transforms.
@@ -37,7 +37,7 @@ def aug_sidebar() -> A.Compose:
         ah = helper_classes[sel](keygen=incr)
         ah.render()
         aug_helpers.append(ah)
-    return A.Compose([ah.aug_instance for ah in aug_helpers])
+    return aug_helpers
 
 
 def info_sidebar() -> None:
@@ -112,7 +112,7 @@ def main():
 
     st.set_page_config(layout="wide")
     st.title("🎹 Audiomentations Demo")
-    aug = aug_sidebar()
+    aug_helpers = aug_sidebar()
 
     input_col, metadata_col = st.columns(2, gap="large")
     with input_col:
@@ -124,6 +124,7 @@ def main():
         st.write(audio_before.shape[0] / sr)
 
     # augment the audio
+    aug = A.Compose([ah.aug_instance for ah in aug_helpers])
     audio_after = aug(audio_before, sample_rate=sr)
 
     before_col, after_col = st.columns(2, gap="large")
