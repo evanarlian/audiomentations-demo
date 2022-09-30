@@ -40,7 +40,7 @@ WIDGET_CHOICE = """
 
 WIDGET_RANGE1 = """
                 {{
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "{param_name}",  # match the param name
                     "value": {default},  # match default values
                 }},
@@ -50,7 +50,7 @@ WIDGET_RANGE1 = """
 
 WIDGET_RANGE2 = """
                 {{
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "{param_name}",  # match the param name
                     "value": {default},  # match default values (min and max tuple)
                 }},

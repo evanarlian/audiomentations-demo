@@ -80,7 +80,7 @@ class AddBackgroundNoise(BaseHelper):
                     "label": "sounds_path",
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "snr_in_db",  # match the param name
                     "value": (3, 30),  # match default values (min and max tuple)
                 },
@@ -91,7 +91,7 @@ class AddBackgroundNoise(BaseHelper):
                     "index": 0,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "absolute_rms_in_db",  # match the param name
                     "value": (-45, -15),  # match default values (min and max tuple)
                 },
@@ -100,7 +100,7 @@ class AddBackgroundNoise(BaseHelper):
                     "label": "noise_transform",
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "lru_cache_size",  # match the param name
                     "value": 2,  # match default values
                 },
@@ -134,7 +134,7 @@ class AddGaussianSNR(BaseHelper):
             aug_class=A.AddGaussianSNR,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "snr_in_db",  # match the param name
                     "value": (5, 40.0),  # match default values (min and max tuple)
                 },
@@ -153,12 +153,12 @@ class AddShortNoises(BaseHelper):
                     "label": "sounds_path",
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "snr_in_db",  # match the param name
                     "value": (0.0, 24.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "time_between_sounds",  # match the param name
                     "value": (4.0, 16.0),  # match default values (min and max tuple)
                 },
@@ -169,42 +169,42 @@ class AddShortNoises(BaseHelper):
                     "index": 0,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "absolute_noise_rms_db",  # match the param name
                     "value": (-50.0, -20),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "add_all_noises_with_same_level",  # match the param name
                     "value": False,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "include_silence_in_noise_rms_estimation",  # match the param name
                     "value": True,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "burst_probability",  # match the param name
                     "value": 0.22,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "pause_factor_during_burst",  # match the param name
                     "value": (0.1, 1.1),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "fade_in_time",  # match the param name
                     "value": (0.005, 0.08),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "fade_out_time",  # match the param name
                     "value": (0.01, 0.1),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "signal_gain_in_db_during_noise",  # match the param name
                     "value": 0.0,  # match default values
                 },
@@ -213,7 +213,7 @@ class AddShortNoises(BaseHelper):
                     "label": "noise_transform",
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "lru_cache_size",  # match the param name
                     "value": 64,  # match default values
                 },
@@ -228,17 +228,17 @@ class AirAbsorption(BaseHelper):
             aug_class=A.AirAbsorption,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "temperature",  # match the param name
                     "value": (10.0, 20.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "humidity",  # match the param name
                     "value": (30.0, 90.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "distance",  # match the param name
                     "value": (10.0, 100.0),  # match default values (min and max tuple)
                 },
@@ -257,7 +257,7 @@ class ApplyImpulseResponse(BaseHelper):
                     "label": "ir_path",
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "lru_cache_size",  # match the param name
                     "value": 128,  # match default values
                 },
@@ -276,22 +276,22 @@ class BandPassFilter(BaseHelper):
             aug_class=A.BandPassFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
                     "value": (200.0, 4000.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "bandwidth_fraction",  # match the param name
                     "value": (0.5, 1.99),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "rolloff",  # match the param name
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "zero_phase",  # match the param name
                     "value": False,  # match default values
                 },
@@ -306,22 +306,22 @@ class BandStopFilter(BaseHelper):
             aug_class=A.BandStopFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
                     "value": (200.0, 4000.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "bandwidth_fraction",  # match the param name
                     "value": (0.5, 1.99),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "rolloff",  # match the param name
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "zero_phase",  # match the param name
                     "value": False,  # match default values
                 },
@@ -336,12 +336,12 @@ class Clip(BaseHelper):
             aug_class=A.Clip,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "a_min",  # match the param name
                     "value": -1.0,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "a_max",  # match the param name
                     "value": 1.0,  # match default values
                 },
@@ -356,7 +356,7 @@ class ClippingDistortion(BaseHelper):
             aug_class=A.ClippingDistortion,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "percentile_threshold",  # match the param name
                     "value": (0, 40),  # match default values (min and max tuple)
                 },
@@ -371,7 +371,7 @@ class FrequencyMask(BaseHelper):
             aug_class=A.FrequencyMask,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "frequency_band",  # match the param name
                     "value": (0.0, 0.5),  # match default values (min and max tuple)
                 },
@@ -386,7 +386,7 @@ class Gain(BaseHelper):
             aug_class=A.Gain,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_in_db",  # match the param name
                     "value": (-12, 12),  # match default values (min and max tuple)
                 },
@@ -401,12 +401,12 @@ class GainTransition(BaseHelper):
             aug_class=A.GainTransition,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_in_db",  # match the param name
                     "value": (-24.0, 6.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "duration",  # match the param name
                     "value": (0.2, 6.0),  # match default values (min and max tuple)
                 },
@@ -427,17 +427,17 @@ class HighPassFilter(BaseHelper):
             aug_class=A.HighPassFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "cutoff_freq",  # match the param name
                     "value": (20, 2400),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "rolloff",  # match the param name
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "zero_phase",  # match the param name
                     "value": False,  # match default values
                 },
@@ -452,17 +452,17 @@ class HighShelfFilter(BaseHelper):
             aug_class=A.HighShelfFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
                     "value": (300.0, 7500.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_db",  # match the param name
                     "value": (-18.0, 18.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "q",  # match the param name
                     "value": (0.1, 0.999),  # match default values (min and max tuple)
                 },
@@ -477,17 +477,17 @@ class Limiter(BaseHelper):
             aug_class=A.Limiter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "threshold_db",  # match the param name
                     "value": (-24, -2),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "attack",  # match the param name
                     "value": (0.0005, 0.025),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "release",  # match the param name
                     "value": (0.05, 0.7),  # match default values (min and max tuple)
                 },
@@ -508,7 +508,7 @@ class LoudnessNormalization(BaseHelper):
             aug_class=A.LoudnessNormalization,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "lufs_in_db",  # match the param name
                     "value": (-31, -13),  # match default values (min and max tuple)
                 },
@@ -523,17 +523,17 @@ class LowPassFilter(BaseHelper):
             aug_class=A.LowPassFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "cutoff_freq",  # match the param name
                     "value": (150, 7500),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "rolloff",  # match the param name
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "zero_phase",  # match the param name
                     "value": False,  # match default values
                 },
@@ -548,17 +548,17 @@ class LowShelfFilter(BaseHelper):
             aug_class=A.LowShelfFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
                     "value": (50.0, 4000.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_db",  # match the param name
                     "value": (-18.0, 18.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "q",  # match the param name
                     "value": (0.1, 0.999),  # match default values (min and max tuple)
                 },
@@ -573,7 +573,7 @@ class Mp3Compression(BaseHelper):
             aug_class=A.Mp3Compression,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "bitrate",  # match the param name
                     "value": (8, 64),  # match default values (min and max tuple)
                 },
@@ -611,7 +611,7 @@ class Padding(BaseHelper):
                     "index": 0,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "fraction",  # match the param name
                     "value": (0.01, 0.7),  # match default values (min and max tuple)
                 },
@@ -632,17 +632,17 @@ class PeakingFilter(BaseHelper):
             aug_class=A.PeakingFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
                     "value": (50.0, 7500.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_db",  # match the param name
                     "value": (-24, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "q",  # match the param name
                     "value": (0.5, 5.0),  # match default values (min and max tuple)
                 },
@@ -657,7 +657,7 @@ class PitchShift(BaseHelper):
             aug_class=A.PitchShift,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "semitones",  # match the param name
                     "value": (-4, 4),  # match default values (min and max tuple)
                 },
@@ -683,7 +683,7 @@ class Resample(BaseHelper):
             aug_class=A.Resample,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "sample_rate",  # match the param name
                     "value": (8000, 44100),  # match default values (min and max tuple)
                 },
@@ -709,57 +709,57 @@ class RoomSimulator(BaseHelper):
             aug_class=A.RoomSimulator,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "size_x",  # match the param name
                     "value": (3.6, 5.6),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "size_y",  # match the param name
                     "value": (3.6, 3.9),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "size_z",  # match the param name
                     "value": (2.4, 3.0),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "absorption_value",  # match the param name
                     "value": (0.075, 0.4),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "target_rt60",  # match the param name
                     "value": (0.15, 0.8),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "source_x",  # match the param name
                     "value": (0.1, 3.5),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "source_y",  # match the param name
                     "value": (0.1, 2.7),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "source_z",  # match the param name
                     "value": (1.0, 2.1),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "mic_distance",  # match the param name
                     "value": (0.15, 0.35),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "mic_azimuth",  # match the param name
                     "value": (-3.141592653589793, 3.141592653589793),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "mic_elevation",  # match the param name
                     "value": (-3.141592653589793, 3.141592653589793),  # match default values (min and max tuple)
                 },
@@ -770,7 +770,7 @@ class RoomSimulator(BaseHelper):
                     "index": 0,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "use_ray_tracing",  # match the param name
                     "value": True,  # match default values
                 },
@@ -783,7 +783,7 @@ class RoomSimulator(BaseHelper):
                     "label": "leave_length_unchanged",
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "padding",  # match the param name
                     "value": 0.1,  # match default values
                 },
@@ -802,7 +802,7 @@ class SevenBandParametricEQ(BaseHelper):
             aug_class=A.SevenBandParametricEQ,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "gain_db",  # match the param name
                     "value": (-12.0, 12.0),  # match default values (min and max tuple)
                 },
@@ -817,22 +817,22 @@ class Shift(BaseHelper):
             aug_class=A.Shift,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "fraction",  # match the param name
                     "value": (-0.5, 0.5),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "rollover",  # match the param name
                     "value": True,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "fade",  # match the param name
                     "value": False,  # match default values
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "fade_duration",  # match the param name
                     "value": 0.01,  # match default values
                 },
@@ -847,7 +847,7 @@ class TanhDistortion(BaseHelper):
             aug_class=A.TanhDistortion,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "distortion",  # match the param name
                     "value": (0.01, 0.7),  # match default values (min and max tuple)
                 },
@@ -862,12 +862,12 @@ class TimeMask(BaseHelper):
             aug_class=A.TimeMask,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "band_part",  # match the param name
                     "value": (0.0, 0.5),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "fade",  # match the param name
                     "value": False,  # match default values
                 },
@@ -882,12 +882,12 @@ class TimeStretch(BaseHelper):
             aug_class=A.TimeStretch,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "rate",  # match the param name
                     "value": (0.8, 1.25),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step
+                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
                     "label": "leave_length_unchanged",  # match the param name
                     "value": True,  # match default values
                 },
