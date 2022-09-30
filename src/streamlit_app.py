@@ -11,14 +11,16 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import audiomentations as A
 
+from helper import BaseHelper
 from helper import helper_classes
 
 
-def aug_sidebar() -> list:
+def show_aug_sidebar() -> list[BaseHelper]:
     """
     Create list of choices, adding a new one if full.
     Shows every params for current selected transforms.
     """
+    st.sidebar.header("Select transforms")
     # streamlit works by caching the previous input (cache by key) and
     # the while loop simply recreates the list everytime, but since
     # previous inputs are cached, it will break at fresh value
@@ -40,13 +42,20 @@ def aug_sidebar() -> list:
     return aug_helpers
 
 
-def info_sidebar() -> None:
+def show_info_sidebar() -> None:
     """Show app info"""
-    # TODO
-    pass
+    st.sidebar.header("App info")
+    st.sidebar.info(
+        "Streamlit demo of [Audiomentations](https://github.com/iver56/audiomentations) library. "
+        "Inspired by [albumentations-demo](https://github.com/IliaLarchenko/albumentations-demo). "
+        "Contribute on [GitHub](https://github.com/evanarlian/audiomentations-demo)."
+    )
+    st.sidebar.info(
+        "Audio source: https://onlinesequencer.net/, https://freesound.org/, https://bigsoundbank.com/"
+    )
 
 
-def audio_input() -> Tuple[np.ndarray, int, str]:
+def show_audio_input() -> Tuple[np.ndarray, int, str]:
     """
     Performs audio loading related tasks.
     Returns tuple of (audio_data, sample_rate, filename)
@@ -61,7 +70,7 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
     resample = st.radio(
         "Resample to", [16000, 22050, 44100, "Use original"], index=0, horizontal=True
     )
-    st.markdown("**Press *'R'* to rerun.**")
+    st.markdown("**> Press *'R'* to rerun.**")
 
     # handle if user is using custom or sample song
     if uploaded_file is not None:
@@ -91,7 +100,19 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
     return audio_arr, sr, audio_name
 
 
-def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
+def show_metadata(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
+    st.json(
+        {
+            "filename": audio_name,
+            "channel": "mono",
+            "sample_rate": sr,
+            "n_samples": len(audio_arr),
+            "duration_in_sec": len(audio_arr) / sr,
+        }
+    )
+
+
+def show_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     """Shows wav plot, mel spectogram, and audio player."""
 
     fig, axs = plt.subplots(2, constrained_layout=True)
@@ -115,25 +136,39 @@ def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     st.audio(audio_bytes)
 
 
+def show_usage(aug_helpers: list[BaseHelper]) -> None:
+    """Shows selected transforms in code."""
+    if aug_helpers == []:
+        st.write("Select one transform to begin.")
+    else:
+        usage_codes = "\n".join(ah.code_usage() for ah in aug_helpers)
+        st.code(usage_codes, language="python")
+
+
+def show_docs(aug_helpers: list[BaseHelper]) -> None:
+    """Shows the docs of selected transforms."""
+    if aug_helpers == []:
+        st.write("Select one transform to begin.")
+    else:
+        for ah in aug_helpers:
+            st.text(ah.docs())
+
+
 def main():
 
     st.set_page_config(layout="wide")
     st.title("🎹 Audiomentations Demo")
-    aug_helpers = aug_sidebar()
+
+    aug_helpers = show_aug_sidebar()
+    show_info_sidebar()
 
     input_col, metadata_col = st.columns(2, gap="large")
     with input_col:
         st.header("Select audio")
-        audio_before, sr, audio_name = audio_input()
+        audio_before, sr, audio_name = show_audio_input()
     with metadata_col:
         st.header("Input metadata")
-        st.json({
-            "filename": audio_name,
-            "channel": "mono",
-            "sample_rate": sr,
-            "n_samples": len(audio_before),
-            "duration_in_sec": len(audio_before) / sr,
-        })
+        show_metadata(audio_before, sr, audio_name)
 
     # augment the audio
     aug = A.Compose([ah.aug_instance for ah in aug_helpers])
@@ -142,12 +177,18 @@ def main():
     before_col, after_col = st.columns(2, gap="large")
     with before_col:
         st.header("Before")
-        visualize_wave(audio_before, sr, audio_name)
+        show_wave(audio_before, sr, audio_name)
     with after_col:
         st.header("After")
-        visualize_wave(audio_after, sr, audio_name)
+        show_wave(audio_after, sr, audio_name)
 
-    # TODO docs so we can understand augs + copy paste
+    usage_col, docs_col = st.columns(2, gap="large")
+    with usage_col:
+        st.header("Usage")
+        show_usage(aug_helpers)
+    with docs_col:
+        st.header("Docs")
+        show_docs(aug_helpers)
 
 
 if __name__ == "__main__":

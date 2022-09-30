@@ -1,5 +1,6 @@
 from abc import ABC
 from enum import Enum
+import inspect
 from typing import Generator
 
 import numpy as np
@@ -37,11 +38,22 @@ class BaseHelper(ABC):
         self.captured = {}
         self.aug_instance = None
 
-    def docstring(self) -> str:
-        return self.aug_class.__doc__
+    def docs(self) -> str:
+        """Returns classname, init, and docstring."""
+        template = "{classname}{init}\n{docstring}"
+        return template.format(
+            classname=self.aug_class.__name__,
+            init=inspect.signature(self.aug_class.__init__),
+            docstring=self.aug_class.__doc__ or "No docstring found.",
+        )
 
-    def init_docstring(self) -> str:
-        return self.aug_class.__init__.__doc__
+    def code_usage(self) -> str:
+        """Returns code to replicate the selected parameters."""
+        template = "{classname}({params_joined})"
+        return template.format(
+            classname=self.aug_class.__name__,
+            params_joined=", ".join(f"{k}={repr(v)}" for k, v in self.captured.items()),
+        )
 
     def render(self) -> None:
         """Show streamlit widgets and store the selected values."""
@@ -278,7 +290,10 @@ class BandPassFilter(BaseHelper):
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
-                    "value": (200.0, 4000.0),  # match default values (min and max tuple)
+                    "value": (
+                        200.0,
+                        4000.0,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
@@ -308,7 +323,10 @@ class BandStopFilter(BaseHelper):
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
-                    "value": (200.0, 4000.0),  # match default values (min and max tuple)
+                    "value": (
+                        200.0,
+                        4000.0,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
@@ -454,7 +472,10 @@ class HighShelfFilter(BaseHelper):
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "center_freq",  # match the param name
-                    "value": (300.0, 7500.0),  # match default values (min and max tuple)
+                    "value": (
+                        300.0,
+                        7500.0,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
@@ -484,7 +505,10 @@ class Limiter(BaseHelper):
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "attack",  # match the param name
-                    "value": (0.0005, 0.025),  # match default values (min and max tuple)
+                    "value": (
+                        0.0005,
+                        0.025,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
@@ -592,9 +616,7 @@ class Normalize(BaseHelper):
         super().__init__(
             keygen=keygen,
             aug_class=A.Normalize,
-            widgets_kwargs=[
-
-            ],
+            widgets_kwargs=[],
         )
 
 
@@ -670,9 +692,7 @@ class PolarityInversion(BaseHelper):
         super().__init__(
             keygen=keygen,
             aug_class=A.PolarityInversion,
-            widgets_kwargs=[
-
-            ],
+            widgets_kwargs=[],
         )
 
 
@@ -696,9 +716,7 @@ class Reverse(BaseHelper):
         super().__init__(
             keygen=keygen,
             aug_class=A.Reverse,
-            widgets_kwargs=[
-
-            ],
+            widgets_kwargs=[],
         )
 
 
@@ -756,12 +774,18 @@ class RoomSimulator(BaseHelper):
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "mic_azimuth",  # match the param name
-                    "value": (-3.141592653589793, 3.141592653589793),  # match default values (min and max tuple)
+                    "value": (
+                        -3.141592653589793,
+                        3.141592653589793,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
                     "label": "mic_elevation",  # match the param name
-                    "value": (-3.141592653589793, 3.141592653589793),  # match default values (min and max tuple)
+                    "value": (
+                        -3.141592653589793,
+                        3.141592653589793,
+                    ),  # match default values (min and max tuple)
                 },
                 {
                     "_widget_enum": Widget.CHOICE,  # FIXME change options and index by digging the docs
