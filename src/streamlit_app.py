@@ -96,7 +96,7 @@ def show_audio_input() -> Tuple[np.ndarray, int, str]:
     except Exception as e:
         err_message = f"Error opening '{audio_name}'."
         logging.exception(err_message, e)
-        st.error(e)
+        st.error(err_message)
         st.stop()
     finally:
         if uploaded_file is not None:
