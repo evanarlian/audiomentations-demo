@@ -38,21 +38,13 @@ class BaseHelper(ABC):
         self.captured = {}
         self.aug_instance = None
 
-    def docs(self) -> str:
-        """Returns classname, init, and docstring."""
-        template = "{classname}{init}\n{docstring}"
-        return template.format(
-            classname=self.aug_class.__name__,
-            init=inspect.signature(self.aug_class.__init__),
-            docstring=self.aug_class.__doc__ or "No docstring found.",
-        )
-
     def code_usage(self) -> str:
         """Returns code to replicate the selected parameters."""
         template = "{classname}({params_joined})"
+        modified = self.captured | {"p": self.proba}
         return template.format(
             classname=self.aug_class.__name__,
-            params_joined=", ".join(f"{k}={repr(v)}" for k, v in self.captured.items()),
+            params_joined=", ".join(f"{k}={repr(v)}" for k, v in modified.items()),
         )
 
     def render(self) -> None:

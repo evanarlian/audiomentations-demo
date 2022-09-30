@@ -76,6 +76,7 @@ def show_audio_input() -> Tuple[np.ndarray, int, str]:
     if uploaded_file is not None:
         # librosa cannot read .mp3 BytesIO but can read .mp3 files
         # we need to fake create audio files with the matching suffix
+        # see https://github.com/librosa/librosa/issues/1267
         audio_name = uploaded_file.name
         temp = NamedTemporaryFile(suffix=Path(audio_name).suffix)
         temp.write(uploaded_file.getvalue())
@@ -129,6 +130,7 @@ def show_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     # for some reason st audio does not play np array
     # we need to get the bytes for streamlit audio
     # and soundfile cannot save to a BytesIO so we make a fake file
+    # TODO use scipy wavfile save to bytesio instead?
     with NamedTemporaryFile(suffix=".wav") as temp:
         soundfile.write(temp, audio_arr, sr)
         temp.seek(0)
@@ -151,7 +153,7 @@ def show_docs(aug_helpers: list[BaseHelper]) -> None:
         st.write("Select one transform to begin.")
     else:
         for ah in aug_helpers:
-            st.text(ah.docs())
+            st.help(ah.aug_class)
 
 
 def main():
