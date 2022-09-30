@@ -61,6 +61,7 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
     resample = st.radio(
         "Resample to", [16000, 22050, 44100, "Use original"], index=0, horizontal=True
     )
+    st.markdown("**Press *'R'* to rerun.**")
 
     # handle if user is using custom or sample song
     if uploaded_file is not None:
@@ -98,13 +99,13 @@ def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
     db_mel_spec = librosa.amplitude_to_db(mel_spec)
     librosa.display.specshow(db_mel_spec, sr=sr, ax=axs[1], x_axis="time", y_axis="mel")
-    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])
+    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0], x_axis=None)
     axs[0].set_ylabel("Amplitude")
     axs[0].set_xlim(axs[1].get_xlim())
     fig.suptitle(audio_name)
     st.pyplot(fig)
 
-    st.write()
+    # for some reason st audio does not play np array
     # we need to get the bytes for streamlit audio
     # and soundfile cannot save to a BytesIO so we make a fake file
     with NamedTemporaryFile(suffix=".wav") as temp:
@@ -125,10 +126,14 @@ def main():
         st.header("Select audio")
         audio_before, sr, audio_name = audio_input()
     with metadata_col:
-        # TODO metadata df might be good
         st.header("Input metadata")
-        st.write(sr)
-        st.write(audio_before.shape[0] / sr)
+        st.json({
+            "filename": audio_name,
+            "channel": "mono",
+            "sample_rate": sr,
+            "n_samples": len(audio_before),
+            "duration_in_sec": len(audio_before) / sr,
+        })
 
     # augment the audio
     aug = A.Compose([ah.aug_instance for ah in aug_helpers])
