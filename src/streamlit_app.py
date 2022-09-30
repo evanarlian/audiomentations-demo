@@ -1,3 +1,4 @@
+import logging
 import itertools
 from io import BytesIO
 from typing import Tuple
@@ -93,8 +94,9 @@ def show_audio_input() -> Tuple[np.ndarray, int, str]:
             audio_path, sr=None if resample == "Use original" else resample
         )
     except Exception as e:
-        print(e)
-        st.error(f"Error opening '{audio_name}'.")
+        err_message = f"Error opening '{audio_name}'."
+        logging.exception(err_message, e)
+        st.error(e)
         st.stop()
     finally:
         if uploaded_file is not None:
