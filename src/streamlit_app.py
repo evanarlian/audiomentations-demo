@@ -58,7 +58,9 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
     selected_samples = st.selectbox("Use sample audio...", sorted(audio_samples.keys()))
     uploaded_file = st.file_uploader("...or upload you own.")
     st.caption("*All audio inputs will be converted to mono.*")
-    resample = st.checkbox("Resample to 22050 Hz", value=True)
+    resample = st.radio(
+        "Resample to", [16000, 22050, 44100, "Use original"], index=0, horizontal=True
+    )
 
     # handle if user is using custom or sample song
     if uploaded_file is not None:
@@ -75,7 +77,9 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
 
     # read audio file (either fake or real)
     try:
-        audio_arr, sr = librosa.load(audio_path, sr=22050 if resample else None)
+        audio_arr, sr = librosa.load(
+            audio_path, sr=None if resample == "Use original" else resample
+        )
     except Exception:
         st.error(f"Error opening '{audio_name}'.")
         st.stop()
@@ -119,8 +123,9 @@ def main():
         st.header("Select audio")
         audio_before, sr, audio_name = audio_input()
     with metadata_col:
-        # TODO metadata
+        # TODO metadata df might be good
         st.header("Input metadata")
+        st.write(sr)
         st.write(audio_before.shape[0] / sr)
 
     # augment the audio
