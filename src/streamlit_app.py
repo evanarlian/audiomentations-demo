@@ -1,15 +1,16 @@
 import itertools
+from io import BytesIO
 from typing import Tuple
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 import numpy as np
-import soundfile
 import librosa
 import librosa.display
+from scipy.io import wavfile
 import matplotlib.pyplot as plt
-import streamlit as st
 import audiomentations as A
+import streamlit as st
 
 from helper import BaseHelper
 from helper import helper_classes
@@ -129,13 +130,9 @@ def show_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
 
     # for some reason st audio does not play np array
     # we need to get the bytes for streamlit audio
-    # and soundfile cannot save to a BytesIO so we make a fake file
-    # TODO use scipy wavfile save to bytesio instead?
-    with NamedTemporaryFile(suffix=".wav") as temp:
-        soundfile.write(temp, audio_arr, sr)
-        temp.seek(0)
-        audio_bytes = temp.read()
-    st.audio(audio_bytes)
+    with BytesIO() as bytesio:
+        wavfile.write(bytesio, sr, audio_arr)
+        st.audio(bytesio)
 
 
 def show_usage(aug_helpers: list[BaseHelper]) -> None:
