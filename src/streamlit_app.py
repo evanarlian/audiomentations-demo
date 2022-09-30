@@ -92,7 +92,8 @@ def show_audio_input() -> Tuple[np.ndarray, int, str]:
         audio_arr, sr = librosa.load(
             audio_path, sr=None if resample == "Use original" else resample
         )
-    except Exception:
+    except Exception as e:
+        print(e)
         st.error(f"Error opening '{audio_name}'.")
         st.stop()
     finally:
