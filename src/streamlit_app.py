@@ -93,16 +93,18 @@ def audio_input() -> Tuple[np.ndarray, int, str]:
 def visualize_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     """Shows wav plot, mel spectogram, and audio player."""
 
-    # plot wave on top and mel spec on the bottom
-    fig, axs = plt.subplots(2, sharex=True, constrained_layout=True)
-    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])  # TODO gap on `barking.wav`
-    axs[0].set_ylabel("Amplitude")
+    fig, axs = plt.subplots(2, constrained_layout=True)
+    # plot mel first to get the bound for waveform
     mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
     db_mel_spec = librosa.amplitude_to_db(mel_spec)
     librosa.display.specshow(db_mel_spec, sr=sr, ax=axs[1], x_axis="time", y_axis="mel")
+    librosa.display.waveshow(audio_arr, sr=sr, ax=axs[0])
+    axs[0].set_ylabel("Amplitude")
+    axs[0].set_xlim(axs[1].get_xlim())
     fig.suptitle(audio_name)
     st.pyplot(fig)
 
+    st.write()
     # we need to get the bytes for streamlit audio
     # and soundfile cannot save to a BytesIO so we make a fake file
     with NamedTemporaryFile(suffix=".wav") as temp:
