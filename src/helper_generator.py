@@ -140,16 +140,16 @@ def main():
                     init_params.pop(name)
                     minmax_without_minmax[shortname] = (default, min_val)
 
-        # handle non minmax (bool, choice, range1)
+        # handle non minmax (bool, choice, range1 enums)
         for name, default in init_params.items():
-            # possible types: numeric (int, float), bool, None, no-default, string
-            if isinstance(default, (int, float)):
-                widget_dicts.append(
-                    WIDGET_RANGE1.format(param_name=name, default=default)
-                )
-            elif isinstance(default, bool):
+            # boll must be handled first because bool is int but int is not bool
+            if isinstance(default, bool):
                 widget_dicts.append(
                     WIDGET_BOOL.format(param_name=name, default=default)
+                )
+            elif isinstance(default, (int, float)):
+                widget_dicts.append(
+                    WIDGET_RANGE1.format(param_name=name, default=default)
                 )
             elif isinstance(default, str):
                 widget_dicts.append(WIDGET_CHOICE.format(param_name=name))

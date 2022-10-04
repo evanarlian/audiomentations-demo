@@ -138,9 +138,12 @@ class AddGaussianSNR(BaseHelper):
             aug_class=A.AddGaussianSNR,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "snr_in_db",  # match the param name
-                    "value": (5, 40.0),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "snr_in_db",
+                    "value": (5.0, 40.0),
+                    "min_value": 0.1,
+                    "max_value": 50.0,
+                    "step": 0.1,
                 },
             ],
         )
@@ -178,14 +181,14 @@ class AddShortNoises(BaseHelper):
                     "value": (-50.0, -20),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "add_all_noises_with_same_level",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "include_silence_in_noise_rms_estimation",  # match the param name
-                    "value": True,  # match default values
+                    "value": True,  # match default value
                 },
                 {
                     "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
@@ -232,19 +235,26 @@ class AirAbsorption(BaseHelper):
             aug_class=A.AirAbsorption,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "temperature",  # match the param name
-                    "value": (10.0, 20.0),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "temperature",
+                    "value": (10.0, 20.0),
+                    "min_value": 10.0,
+                    "max_value": 20.0,
+                    "step": 10.0,
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "humidity",  # match the param name
-                    "value": (30.0, 90.0),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "humidity",
+                    "value": (30.0, 90.0),
+                    "min_value": 30.0,
+                    "max_value": 90.0,
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "distance",  # match the param name
-                    "value": (10.0, 100.0),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "distance",
+                    "value": (10.0, 100.0),
+                    "min_value": -50.0,
+                    "max_value": 300.0,
                 },
             ],
         )
@@ -280,27 +290,31 @@ class BandPassFilter(BaseHelper):
             aug_class=A.BandPassFilter,
             widgets_kwargs=[
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "center_freq",  # match the param name
-                    "value": (
-                        200.0,
-                        4000.0,
-                    ),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "center_freq",
+                    "value": (200.0, 4000.0),
+                    "min_value": 0.0,
+                    "max_value": 6000.0,
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "bandwidth_fraction",  # match the param name
-                    "value": (0.5, 1.99),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "bandwidth_fraction",
+                    "value": (0.5, 1.99),
+                    "min_value": 0.1,
+                    "max_value": 1.99,
                 },
                 {
-                    "_widget_enum": Widget.RANGE2,  # FIXME add min_value, max_value, step, format
-                    "label": "rolloff",  # match the param name
-                    "value": (12, 24),  # match default values (min and max tuple)
+                    "_widget_enum": Widget.RANGE2,
+                    "label": "rolloff",
+                    "value": (12, 24),
+                    "step": 12,  # HACK true value 6 will make below bool error
+                    "min_value": 0,
+                    "max_value": 48,
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
-                    "label": "zero_phase",  # match the param name
-                    "value": False,  # match default values
+                    "_widget_enum": Widget.BOOL,
+                    "label": "zero_phase",
+                    "value": False,
                 },
             ],
         )
@@ -331,9 +345,9 @@ class BandStopFilter(BaseHelper):
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "zero_phase",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
             ],
         )
@@ -447,9 +461,9 @@ class HighPassFilter(BaseHelper):
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "zero_phase",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
             ],
         )
@@ -549,9 +563,9 @@ class LowPassFilter(BaseHelper):
                     "value": (12, 24),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "zero_phase",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
             ],
         )
@@ -786,9 +800,9 @@ class RoomSimulator(BaseHelper):
                     "index": 0,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "use_ray_tracing",  # match the param name
-                    "value": True,  # match default values
+                    "value": True,  # match default value
                 },
                 {
                     "_widget_enum": Widget.UNKNOWN,  # FIXME subclass the render method
@@ -838,14 +852,14 @@ class Shift(BaseHelper):
                     "value": (-0.5, 0.5),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "rollover",  # match the param name
-                    "value": True,  # match default values
+                    "value": True,  # match default value
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "fade",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
                 {
                     "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
@@ -883,9 +897,9 @@ class TimeMask(BaseHelper):
                     "value": (0.0, 0.5),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "fade",  # match the param name
-                    "value": False,  # match default values
+                    "value": False,  # match default value
                 },
             ],
         )
@@ -903,9 +917,9 @@ class TimeStretch(BaseHelper):
                     "value": (0.8, 1.25),  # match default values (min and max tuple)
                 },
                 {
-                    "_widget_enum": Widget.RANGE1,  # FIXME add min_value, max_value, step, format
+                    "_widget_enum": Widget.BOOL,  # FIXME just check
                     "label": "leave_length_unchanged",  # match the param name
-                    "value": True,  # match default values
+                    "value": True,  # match default value
                 },
             ],
         )
@@ -998,5 +1012,10 @@ class Dummy(BaseHelper):
 helper_classes = {
     # "AddBackgroundNoise": AddBackgroundNoise,
     "AddGaussianNoise": AddGaussianNoise,
+    "AddGaussianSNR": AddGaussianSNR,
+    # "AddShortNoises": AddShortNoises,
+    "AirAbsorption": AirAbsorption,
+    # "ApplyImpulseResponse": ApplyImpulseResponse,
+    "BandPassFilter": BandPassFilter,
     "Dummy": Dummy,
 }
