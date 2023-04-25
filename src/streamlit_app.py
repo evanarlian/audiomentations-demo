@@ -22,7 +22,7 @@ def show_aug_sidebar() -> list[BaseHelper]:
     Create list of choices, adding a new one if full.
     Shows every params for current selected transforms.
     """
-    st.sidebar.header("Select transforms")
+    st.sidebar.header("List of transformations")
     # streamlit works by caching the previous input (cache by key) and
     # the while loop simply recreates the list everytime, but since
     # previous inputs are cached, it will break at fresh value
@@ -33,7 +33,7 @@ def show_aug_sidebar() -> list[BaseHelper]:
     aug_helpers = []
     while True:
         # this sidebar has implicit key by incrementing the label string
-        sel = st.sidebar.selectbox(f"Audiomentations no. {len(selected)+1}", helpers)
+        sel = st.sidebar.selectbox(f"No. {len(selected)+1}", helpers)
         if sel == add_new:
             break
         selected.append(sel)
@@ -42,19 +42,6 @@ def show_aug_sidebar() -> list[BaseHelper]:
         ah.render()
         aug_helpers.append(ah)
     return aug_helpers
-
-
-def show_info_sidebar() -> None:
-    """Show app info"""
-    st.sidebar.header("App info")
-    st.sidebar.info(
-        "Streamlit demo of [Audiomentations](https://github.com/iver56/audiomentations) library. "
-        "Inspired by [albumentations-demo](https://github.com/IliaLarchenko/albumentations-demo). "
-        "Contribute on [GitHub](https://github.com/evanarlian/audiomentations-demo)."
-    )
-    st.sidebar.info(
-        "Audio source: https://onlinesequencer.net/, https://freesound.org/, https://bigsoundbank.com/"
-    )
 
 
 def show_audio_input() -> Tuple[np.ndarray, int, str]:
@@ -162,7 +149,6 @@ def main():
     st.title("🎹 Audiomentations Demo")
 
     aug_helpers = show_aug_sidebar()
-    show_info_sidebar()
 
     input_col, metadata_col = st.columns(2, gap="large")
     with input_col:
