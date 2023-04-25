@@ -1,5 +1,4 @@
 import logging
-import itertools
 from io import BytesIO
 from typing import Tuple
 from pathlib import Path
@@ -11,13 +10,50 @@ import librosa.display
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import audiomentations as A
+from audiomentations.core.transforms_interface import BaseWaveformTransform
 import streamlit as st
 
-from helper import BaseHelper
-from helper import helper_classes
+
+CLASSES = {
+    # "AddBackgroundNoise": A.AddBackgroundNoise,
+    "AddGaussianNoise": A.AddGaussianNoise,
+    "AddGaussianSNR": A.AddGaussianSNR,
+    # "AddShortNoises": A.AddShortNoises,
+    # "AdjustDuration": A.AdjustDuration,
+    "AirAbsorption": A.AirAbsorption,
+    # "ApplyImpulseResponse": A.ApplyImpulseResponse,
+    "BandPassFilter": A.BandPassFilter,
+    "BandStopFilter": A.BandStopFilter,
+    "Clip": A.Clip,
+    "ClippingDistortion": A.ClippingDistortion,
+    "Gain": A.Gain,
+    "GainTransition": A.GainTransition,
+    "HighPassFilter": A.HighPassFilter,
+    "HighShelfFilter": A.HighShelfFilter,
+    # "Lambda": A.Lambda,
+    "Limiter": A.Limiter,
+    "LoudnessNormalization": A.LoudnessNormalization,
+    "LowPassFilter": A.LowPassFilter,
+    "LowShelfFilter": A.LowShelfFilter,
+    "Mp3Compression": A.Mp3Compression,
+    "Normalize": A.Normalize,
+    "Padding": A.Padding,
+    "PeakingFilter": A.PeakingFilter,
+    "PitchShift": A.PitchShift,
+    "PolarityInversion": A.PolarityInversion,
+    "Resample": A.Resample,
+    "Reverse": A.Reverse,
+    "RoomSimulator": A.RoomSimulator,
+    "SevenBandParametricEQ": A.SevenBandParametricEQ,
+    "Shift": A.Shift,
+    "TanhDistortion": A.TanhDistortion,
+    "TimeMask": A.TimeMask,
+    "TimeStretch": A.TimeStretch,
+    "Trim": A.Trim,
+}
 
 
-def show_aug_sidebar() -> list[BaseHelper]:
+def show_aug_sidebar() -> list[BaseWaveformTransform]:
     """
     Create list of choices, adding a new one if full.
     Shows every params for current selected transforms.
@@ -26,22 +62,18 @@ def show_aug_sidebar() -> list[BaseHelper]:
     # streamlit works by caching the previous input (cache by key) and
     # the while loop simply recreates the list everytime, but since
     # previous inputs are cached, it will break at fresh value
-    incr = itertools.count()
     add_new = "➕ Add new"
-    helpers = [add_new] + sorted(helper_classes.keys())
+    helpers = [add_new] + sorted(CLASSES.keys())
+    n_selected = 1
     selected = []
-    aug_helpers = []
     while True:
         # this sidebar has implicit key by incrementing the label string
-        sel = st.sidebar.selectbox(f"No. {len(selected)+1}", helpers)
+        sel = st.sidebar.selectbox(f"No. {n_selected}", helpers)
         if sel == add_new:
             break
-        selected.append(sel)
-        # aug needs explicit key because it can contain many widget
-        ah = helper_classes[sel](keygen=incr)
-        ah.render()
-        aug_helpers.append(ah)
-    return aug_helpers
+        n_selected += 1
+        selected.append(CLASSES[sel](p=1.0))
+    return selected
 
 
 def show_audio_input() -> Tuple[np.ndarray, int, str]:
@@ -106,7 +138,6 @@ def show_metadata(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
 
 def show_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
     """Shows wav plot, mel spectogram, and audio player."""
-
     fig, axs = plt.subplots(2, constrained_layout=True)
     # plot mel first to get the bound for waveform
     mel_spec = librosa.feature.melspectrogram(y=audio_arr, sr=sr)
@@ -125,22 +156,13 @@ def show_wave(audio_arr: np.ndarray, sr: int, audio_name: str) -> None:
         st.audio(bytesio)
 
 
-def show_usage(aug_helpers: list[BaseHelper]) -> None:
-    """Shows selected transforms in code."""
-    if aug_helpers == []:
-        st.write("Select one transform to begin.")
-    else:
-        usage_codes = "\n".join(ah.code_usage() for ah in aug_helpers)
-        st.code(usage_codes, language="python")
-
-
-def show_docs(aug_helpers: list[BaseHelper]) -> None:
+def show_docs(selected: list[BaseWaveformTransform]) -> None:
     """Shows the docs of selected transforms."""
-    if aug_helpers == []:
+    if selected == []:
         st.write("Select one transform to begin.")
     else:
-        for ah in aug_helpers:
-            st.help(ah.aug_class)
+        for s in selected:
+            st.help(s)
 
 
 def main():
@@ -148,7 +170,7 @@ def main():
     st.set_page_config(layout="wide")
     st.title("🎹 Audiomentations Demo")
 
-    aug_helpers = show_aug_sidebar()
+    selected = show_aug_sidebar()
 
     input_col, metadata_col = st.columns(2, gap="large")
     with input_col:
@@ -159,7 +181,7 @@ def main():
         show_metadata(audio_before, sr, audio_name)
 
     # augment the audio
-    aug = A.Compose([ah.aug_instance for ah in aug_helpers])
+    aug = A.Compose(selected)
     audio_after = aug(audio_before, sample_rate=sr)
 
     before_col, after_col = st.columns(2, gap="large")
@@ -170,13 +192,8 @@ def main():
         st.header("After")
         show_wave(audio_after, sr, audio_name)
 
-    usage_col, docs_col = st.columns(2, gap="large")
-    with usage_col:
-        st.header("Usage")
-        show_usage(aug_helpers)
-    with docs_col:
-        st.header("Docs")
-        show_docs(aug_helpers)
+    st.header("Docs")
+    show_docs(selected)
 
 
 if __name__ == "__main__":
