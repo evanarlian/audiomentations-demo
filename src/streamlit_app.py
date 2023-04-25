@@ -63,12 +63,12 @@ def show_aug_sidebar() -> list[BaseWaveformTransform]:
     # the while loop simply recreates the list everytime, but since
     # previous inputs are cached, it will break at fresh value
     add_new = "➕ Add new"
-    helpers = [add_new] + sorted(CLASSES.keys())
+    choices = [add_new] + sorted(CLASSES.keys())
     n_selected = 1
     selected = []
     while True:
         # this sidebar has implicit key by incrementing the label string
-        sel = st.sidebar.selectbox(f"No. {n_selected}", helpers)
+        sel = st.sidebar.selectbox(f"No. {n_selected}", choices)
         if sel == add_new:
             break
         n_selected += 1
@@ -161,7 +161,8 @@ def show_docs(selected: list[BaseWaveformTransform]) -> None:
     if selected == []:
         st.write("Select one transform to begin.")
     else:
-        for s in selected:
+        for i, s in enumerate(selected, 1):
+            st.subheader(f"{i}. {s.__class__.__name__}")
             st.help(s)
 
 
