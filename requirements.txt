@@ -42,6 +42,7 @@ protobuf==3.20.3
 pyarrow==11.0.0
 pycparser==2.21
 pydeck==0.8.1b0
+pydub==0.25.1
 Pygments==2.15.1
 pyloudnorm==0.1.1
 Pympler==1.0.1
