@@ -5,11 +5,15 @@ Streamlit demo of [Audiomentations](https://github.com/iver56/audiomentations) l
 
 # Developments
 Create a virtual env and install dependencies.
-```sh
+```bash
 python3 -m venv venv
 chmod +x venv/bin/activate*
 source venv/bin/activate.fish  # I use fish
 pip install -r requirements.txt
+```
+Start streamlit
+```bash
+streamlit run src/streamlit_app.py
 ```
 
 # Audio samples source
